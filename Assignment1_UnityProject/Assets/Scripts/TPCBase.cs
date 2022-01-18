@@ -9,6 +9,8 @@ namespace PGGE
     {
         protected Transform mCameraTransform;
         protected Transform mPlayerTransform;
+        RaycastHit hit;
+        LayerMask wall = LayerMask.GetMask("Walls");
 
         public Transform CameraTransform
         {
@@ -33,9 +35,8 @@ namespace PGGE
 
         public void RepositionCamera()
         {
-            RaycastHit hit;
             Vector3 playerTransformTemp = PlayerTransform.position + new Vector3(0, CameraTransform.position.y, 0);
-            if (Physics.Linecast(playerTransformTemp, CameraTransform.position, out hit)) {
+            if (Physics.Linecast(playerTransformTemp, CameraTransform.position, out hit, wall)) {
                 CameraTransform.position = Vector3.Lerp(CameraTransform.position, playerTransformTemp - CameraTransform.position, Time.deltaTime);
             }
         }
