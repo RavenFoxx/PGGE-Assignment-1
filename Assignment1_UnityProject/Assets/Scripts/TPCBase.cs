@@ -33,16 +33,11 @@ namespace PGGE
 
         public void RepositionCamera()
         {
-            //-------------------------------------------------------------------
-            // Implement here.
-            //-------------------------------------------------------------------
-            //-------------------------------------------------------------------
-            // Hints:
-            //-------------------------------------------------------------------
-            // check collision between camera and the player.
-            // find the nearest collision point to the player
-            // shift the camera position to the nearest intersected point
-            //-------------------------------------------------------------------
+            RaycastHit hit;
+            Vector3 playerTransformTemp = PlayerTransform.position + new Vector3(0, CameraTransform.position.y, 0);
+            if (Physics.Linecast(playerTransformTemp, CameraTransform.position, out hit)) {
+                CameraTransform.position = Vector3.Lerp(CameraTransform.position, playerTransformTemp - CameraTransform.position, Time.deltaTime);
+            }
         }
 
         public abstract void Update();

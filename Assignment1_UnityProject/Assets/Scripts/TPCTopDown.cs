@@ -15,7 +15,7 @@ namespace PGGE
         {
             // For topdown camera we do not use the x and z offsets.
             Vector3 targetPos = mPlayerTransform.position;
-            targetPos.y += CameraConstants.CameraPositionOffset.y;
+            targetPos.y += (CameraConstants.CameraPositionOffset.y + 5f);
             Vector3 position = Vector3.Lerp(mCameraTransform.position, targetPos, Time.deltaTime * CameraConstants.Damping);
             mCameraTransform.position = position;
             mCameraTransform.rotation = Quaternion.Euler(90.0f, 0.0f, 0.0f);
