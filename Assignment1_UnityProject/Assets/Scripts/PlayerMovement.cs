@@ -1,44 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using PGGE;
 
 public class PlayerMovement : MonoBehaviour
 {
+    #if UNITY_ANDROID
+        public FixedJoystick mJoystick;
+    #endif
+    float hInput;
+    float vInput;
+    float speed;
+    bool jump = false;
+    bool crouch = false;
+    Vector3 mVelocity = new Vector3(0.0f, 0.0f, 0.0f);
+    AudioSource mASource;
+    AudioClip[] mAClipList = new AudioClip[4];
+    public AudioClip footstep1;
+    public AudioClip footstep2;
+    public AudioClip footstep3;
+    public AudioClip footstep4;
     [HideInInspector]
     public CharacterController mCharacterController;
     public Animator mAnimator;
-
     public float mWalkSpeed = 1.5f;
     public float mRotationSpeed = 50.0f;
-    public bool mFollowCameraForward = false;
     public float mTurnRate = 10.0f;
-
-#if UNITY_ANDROID
-    public FixedJoystick mJoystick;
-#endif
-
-    private float hInput;
-    private float vInput;
-    private float speed;
-    private bool jump = false;
-    private bool crouch = false;
     public float mGravity = -30.0f;
     public float mJumpHeight = 1.0f;
-
-    private Vector3 mVelocity = new Vector3(0.0f, 0.0f, 0.0f);
-
+    public bool mFollowCameraForward = false;
     void Start()
     {
         mCharacterController = GetComponent<CharacterController>();
+        mAClipList[0] = footstep1;
+        mAClipList[1] = footstep2;
+        mAClipList[2] = footstep3;
+        mAClipList[3] = footstep4;
     }
-
     void Update()
     {
-        //HandleInputs();
-        //Move();
-    }
 
+    }
     private void FixedUpdate()
     {
         ApplyGravity();
@@ -46,7 +47,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void HandleInputs()
     {
-        // We shall handle our inputs here.
     #if UNITY_STANDALONE
         hInput = Input.GetAxis("Horizontal");
         vInput = Input.GetAxis("Vertical");
@@ -56,7 +56,6 @@ public class PlayerMovement : MonoBehaviour
         hInput = 2.0f * mJoystick.Horizontal;
         vInput = 2.0f * mJoystick.Vertical;
     #endif
-
         speed = mWalkSpeed;
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -72,23 +71,42 @@ public class PlayerMovement : MonoBehaviour
         {
             jump = false;
         }
-
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            crouch = !crouch;
-            Crouch();
+            mAnimator.SetTrigger("Excited");
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            mAnimator.SetTrigger("Disappointed");
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            mAnimator.SetTrigger("Tired");
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            mAnimator.SetTrigger("StretchF");
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            mAnimator.SetTrigger("StretchS");
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            mAnimator.SetTrigger("Wave");
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            mAnimator.SetTrigger("Spin");
         }
     }
 
     public void Move()
     {
         if (crouch) return;
-
-        // We shall apply movement to the game object here.
         if (mAnimator == null) return;
         if (mFollowCameraForward)
         {
-            // rotate Player towards the camera forward.
             Vector3 eu = Camera.main.transform.rotation.eulerAngles;
             transform.rotation = Quaternion.RotateTowards(
                 transform.rotation,
@@ -99,50 +117,29 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.Rotate(0.0f, hInput * mRotationSpeed * Time.deltaTime, 0.0f);
         }
-
         Vector3 forward = transform.TransformDirection(Vector3.forward).normalized;
         forward.y = 0.0f;
-
         mCharacterController.Move(forward * vInput * speed * Time.deltaTime);
         mAnimator.SetFloat("PosX", 0);
         mAnimator.SetFloat("PosZ", vInput * speed / (2.0f * mWalkSpeed));
-
         if(jump)
         {
             Jump();
             jump = false;
         }
     }
-
     void Jump()
     {
         mAnimator.SetTrigger("Jump");
         mVelocity.y += Mathf.Sqrt(mJumpHeight * -2f * mGravity);
     }
-
-    private Vector3 HalfHeight;
-    private Vector3 tempHeight;
-    void Crouch()
-    {
-        mAnimator.SetBool("Crouch", crouch);
-        if(crouch)
-        {
-            tempHeight = CameraConstants.CameraPositionOffset;
-            HalfHeight = tempHeight;
-            HalfHeight.y *= 0.5f;
-            CameraConstants.CameraPositionOffset = HalfHeight;
-        }
-        else
-        {
-            CameraConstants.CameraPositionOffset = tempHeight;
-        }
-    }
-
     void ApplyGravity()
     {
-        // apply gravity.
         mVelocity.y += mGravity * Time.deltaTime;
         if (mCharacterController.isGrounded && mVelocity.y < 0)
             mVelocity.y = 0f;
+    }
+    void PlayFootstep() {
+            mASource.PlayOneShot(mAClipList[Random.Range(0, 3)]);
     }
 }
