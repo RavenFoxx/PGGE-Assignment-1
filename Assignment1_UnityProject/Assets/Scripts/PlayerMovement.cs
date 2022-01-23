@@ -13,12 +13,6 @@ public class PlayerMovement : MonoBehaviour
     bool jump = false;
     bool crouch = false;
     Vector3 mVelocity = new Vector3(0.0f, 0.0f, 0.0f);
-    AudioSource mASource;
-    AudioClip[] mAClipList = new AudioClip[4];
-    public AudioClip footstep1;
-    public AudioClip footstep2;
-    public AudioClip footstep3;
-    public AudioClip footstep4;
     [HideInInspector]
     public CharacterController mCharacterController;
     public Animator mAnimator;
@@ -31,10 +25,6 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         mCharacterController = GetComponent<CharacterController>();
-        mAClipList[0] = footstep1;
-        mAClipList[1] = footstep2;
-        mAClipList[2] = footstep3;
-        mAClipList[3] = footstep4;
     }
     void Update()
     {
@@ -138,8 +128,5 @@ public class PlayerMovement : MonoBehaviour
         mVelocity.y += mGravity * Time.deltaTime;
         if (mCharacterController.isGrounded && mVelocity.y < 0)
             mVelocity.y = 0f;
-    }
-    void PlayFootstep() {
-            mASource.PlayOneShot(mAClipList[Random.Range(0, 3)]);
     }
 }

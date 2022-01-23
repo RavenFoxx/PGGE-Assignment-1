@@ -4,27 +4,22 @@ using UnityEngine;
 
 public class AddFootsteps : MonoBehaviour
 {
-    AudioSource mASource;
-    AudioClip[] mAClipList = new AudioClip[4];
-    public AudioClip footstep1;
-    public AudioClip footstep2;
-    public AudioClip footstep3;
-    public AudioClip footstep4;
+    public AudioSource mASource;
+    public AudioClip[] mAClipList;
     void Start()
     {
-        mAClipList[0] = footstep1;
-        mAClipList[1] = footstep2;
-        mAClipList[2] = footstep3;
-        mAClipList[3] = footstep4;
     }
     void Update()
     {
         
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Floor") {
-            mASource.PlayOneShot(mAClipList[Random.Range(0, 3)]);
-        }
+    public void NormalFootsteps() {
+        mASource.volume = 0.5f;
+        mASource.PlayOneShot(mAClipList[Random.Range(0, 3)]);
+    }
+    public void HeavyFootsteps() {
+        mASource.volume = 1f;
+        mASource.PlayOneShot(mAClipList[Random.Range(0, 3)]);
+        mASource.volume = 0.5f;
     }
 }
