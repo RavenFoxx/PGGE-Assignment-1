@@ -1,14 +1,14 @@
 # Submission Date: 24 Jan 2022, 0900 hrs
 # Checklist for Submission
-- [ ] 1	Have I completed all three questions?
-- [ ] 2	Have I submitted the Unity Project?
-- [ ] 3	Have I tested whether the Unity Project can be loaded?
-- [ ] 4	Have I submitted an executable build so that the tutor can run my application? 
-- [ ] 5	Have I provided access to my tutor to the shared folder?
-- [ ] 6	Have I explained my code and configurations clearly for each question?
-- [ ] 7	Have I provided a video showing the working of each question in the report template?
-- [ ] 8	Have I written a reflection on my learning experience where ever I am asked to do?
-- [ ] 9	Have I signed and submitted the "Self-declaration for Academic Integrity" document?
+- [x] 1	Have I completed all three questions?
+- [x] 2	Have I submitted the Unity Project?
+- [x] 3	Have I tested whether the Unity Project can be loaded?
+- [x] 4	Have I submitted an executable build so that the tutor can run my application? 
+- [x] 5	Have I provided access to my tutor to the shared folder?
+- [x] 6	Have I explained my code and configurations clearly for each question?
+- [x] 7	Have I provided a video showing the working of each question in the report template?
+- [x] 8	Have I written a reflection on my learning experience where ever I am asked to do?
+- [x] 9	Have I signed and submitted the "Self-declaration for Academic Integrity" document?
 
 
 # Assignment 1.1: Practical Assignment - Source Codes (30%)
